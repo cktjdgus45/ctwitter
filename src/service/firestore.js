@@ -1,5 +1,5 @@
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, getDocs, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, getDocs, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
 
 
 const db = getFirestore();
@@ -18,13 +18,12 @@ class fireStore {
         }
     }
     async read() {
-        const dbArr = [];
+        const tweets = [];
         const querySnapshot = await getDocs(collection(db, "nweets"));
         querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            dbArr.push(data);
+            tweets.push({ ...doc.data(), id: doc.id });
         });
-        return dbArr;
+        return tweets;
     }
 
     watchingChange(setTweets) {
@@ -32,11 +31,13 @@ class fireStore {
         onSnapshot(q, (querySnapshot) => {
             const tweets = [];
             querySnapshot.forEach((doc) => {
-                tweets.push(doc.data());
+                tweets.push({ ...doc.data(), id: doc.id });
             });
-            console.log(tweets)
             setTweets(tweets);
         });
+    }
+    async delete(docId) {
+        await deleteDoc(doc(db, "nweets", `${docId}`));
     }
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
+import Tweet from '../components/tweet';
 
 const Home = ({ AuthService, fireStore }) => {
     const historyState = useLocation().state;
@@ -31,9 +32,10 @@ const Home = ({ AuthService, fireStore }) => {
             </form>
             {
                 tweets.map(tweet => (
-                    <div key={tweet.createdAt}>
-                        <h4>{tweet.tweet}</h4>
-                    </div>
+                    <Tweet key={tweet.creator}
+                        tweet={tweet}
+                        isOwner={userId === tweet.creator}
+                        fireStore={fireStore} />
                 ))
             }
         </>
