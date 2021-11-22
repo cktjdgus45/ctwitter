@@ -5,7 +5,7 @@ import Auth from './routes/auth.jsx';
 import Home from './routes/home.jsx';
 
 
-function App({ AuthService }) {
+function App({ AuthService, fireStore }) {
   return (
     <div className="App">
       <BrowserRouter>
@@ -14,7 +14,7 @@ function App({ AuthService }) {
             (
               <>
                 <Route exact path="/" element={<Auth AuthService={AuthService} />}></Route>
-                <Route exact path="/home" element={<Home />}></Route>
+                <Route exact path="/home" element={<Home AuthService={AuthService} fireStore={fireStore} />}></Route>
               </>
             )
           }

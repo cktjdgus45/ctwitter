@@ -1,11 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 
-const Home = () => {
-    const { id } = useLocation().state;
-    console.log(id)
+const Home = ({ AuthService, fireStore }) => {
+    const historyState = useLocation().state;
+    const [userId, setUserId] = useState(historyState && historyState.id);
+    const [tweet, setTweet] = useState('');
+    const [tweets, setTweets] = useState([]);
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        fireStore.write(tweet, userId);
+        setTweet('');
+    }
+    const onChange = (event) => {
+        const { value } = event.target;
+        setTweet(value);
+    }
+
+    useEffect(() => {
+        fireStore.watchingChange(setTweets);
+
+        fireStore.read().then(data => setTweets(data));
+    }, [])
     return (
-        <span> Home </span>
+        <>
+            <span> Home </span>
+            <form onSubmit={onSubmit}>
+                <input type="text" value={tweet} onChange={onChange} placeholder="생각을 적어주세요" maxLength={120} />
+                <input type="submit" value="트윗올리기" />
+            </form>
+            {
+                tweets.map(tweet => (
+                    <div key={tweet.createdAt}>
+                        <h4>{tweet.tweet}</h4>
+                    </div>
+                ))
+            }
+        </>
     );
 }
 

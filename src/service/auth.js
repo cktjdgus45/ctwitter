@@ -13,7 +13,6 @@ class AuthService {
     }
     onAuthChange(onUserChanged) {
         onAuthStateChanged(auth, (user) => {
-            console.log(auth)
             onUserChanged(user);
         });
     }
