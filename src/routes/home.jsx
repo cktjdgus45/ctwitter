@@ -7,7 +7,6 @@ const Home = ({ AuthService, fireStore }) => {
     const [userId, setUserId] = useState(historyState && historyState.id);
     const [tweet, setTweet] = useState('');
     const [tweets, setTweets] = useState([]);
-
     const onSubmit = (event) => {
         event.preventDefault();
         fireStore.write(tweet, userId);

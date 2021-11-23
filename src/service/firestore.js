@@ -1,5 +1,5 @@
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, getDocs, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, onSnapshot, query, orderBy, doc, deleteDoc, updateDoc } from "firebase/firestore";
 
 
 const db = getFirestore();
@@ -38,6 +38,14 @@ class fireStore {
     }
     async delete(docId) {
         await deleteDoc(doc(db, "nweets", `${docId}`));
+    }
+
+    async update(docId, tweet) {
+        const tweetRef = doc(db, 'nweets', `${docId}`);
+        // Remove the 'capital' field from the document
+        await updateDoc(tweetRef, {
+            tweet: tweet
+        });
     }
 }
 
