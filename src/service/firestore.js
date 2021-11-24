@@ -5,12 +5,13 @@ import { collection, addDoc, getDocs, onSnapshot, query, orderBy, doc, deleteDoc
 const db = getFirestore();
 
 class fireStore {
-    async write(tweet, userId) {
+    async write(tweet, userId, fileUrl) {
         try {
             const docRef = await addDoc(collection(db, "nweets"), {
                 tweet,
                 creator: userId,
-                createdAt: Date.now()
+                createdAt: Date.now(),
+                fileUrl
             });
             console.log("Document written with ID: ", docRef.id);
         } catch (e) {

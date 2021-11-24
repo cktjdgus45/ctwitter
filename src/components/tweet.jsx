@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-const Tweet = ({ tweet, isOwner, fireStore }) => {
+const Tweet = ({ tweet, isOwner, fireStore, profile }) => {
     const [editing, setEditing] = useState(false);
     const [newTweet, setNewTweet] = useState(tweet.tweet);
     const inputRef = useRef();
@@ -46,6 +46,7 @@ const Tweet = ({ tweet, isOwner, fireStore }) => {
                         <>
                             {isOwner && (
                                 <>
+                                    {profile !== "" ? (<img src={profile} alt="profile" />) : (<></>)}
                                     <h4>{tweet.tweet}</h4>
                                     <button onClick={onDelete}>트윗 삭제</button>
                                     <button onClick={toggleEditing}>트윗 변경</button>
