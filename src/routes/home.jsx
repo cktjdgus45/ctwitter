@@ -12,7 +12,6 @@ const Home = ({ AuthService, fireStore, fileUploader }) => {
     const onSubmit = (event) => {
         event.preventDefault();
         const fileUrl = fileUploader.getFileUrl(userId, file, fireStore, tweet);
-        console.log(fileUrl)
         fireStore.write(tweet, userId, fileUrl);
         setTweet('');
         setFile('');
@@ -55,7 +54,8 @@ const Home = ({ AuthService, fireStore, fileUploader }) => {
                         tweet={tweet}
                         isOwner={userId === tweet.creator}
                         fireStore={fireStore}
-                        profile={tweet.fileUrl} />
+                        profile={tweet.fileUrl}
+                        fileUploader={fileUploader} />
                 ))
             }
         </>

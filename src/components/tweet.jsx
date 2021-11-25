@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-const Tweet = ({ tweet, isOwner, fireStore, profile }) => {
+const Tweet = ({ tweet, isOwner, fireStore, profile, fileUploader }) => {
     const [editing, setEditing] = useState(false);
     const [newTweet, setNewTweet] = useState(tweet.tweet);
     const inputRef = useRef();
@@ -8,6 +8,7 @@ const Tweet = ({ tweet, isOwner, fireStore, profile }) => {
         const ok = window.confirm("트윗을 삭제하시겠습니까?");
         if (ok) {
             fireStore.delete(tweet.id);
+            fileUploader.deleteFile(tweet.fileUrl);
         }
     }
     const toggleEditing = () => {
